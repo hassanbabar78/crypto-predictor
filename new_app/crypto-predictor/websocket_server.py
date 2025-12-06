@@ -275,7 +275,8 @@ class LiveCryptoWebSocketServer:
         update_task = asyncio.create_task(self.periodic_update())
         
         # Start WebSocket server
-        async with websockets.serve(self.handle_client, "localhost", 8765):
+        port = int(os.getenv("PORT", 8765))  # Use Render-provided PORT
+        async with websockets.serve(self.handle_client, "localhost", port):
             print("✅ WebSocket server started!")
             print("⏳ Waiting for client connections...")
             await asyncio.Future()  # Run forever
